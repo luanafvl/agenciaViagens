@@ -1,4 +1,4 @@
-﻿# código sql do banco de dados
+# código sql do banco de dados
 
 
 create database agenciaViagens;
@@ -73,6 +73,30 @@ CREATE TABLE rel_cliente_pacote_servico (
     FOREIGN KEY (id_pacote_viagem) REFERENCES tb_pacote_viagem(id_pacote_viagem),
     FOREIGN KEY (id_servico) REFERENCES tb_servico(id_servico)
 );
+
+
+ALTER TABLE rel_cliente_pacote
+DROP FOREIGN KEY rel_cliente_pacote_ibfk_1,
+DROP FOREIGN KEY rel_cliente_pacote_ibfk_2;
+
+ALTER TABLE rel_cliente_pacote
+ADD CONSTRAINT rel_cliente_pacote_ibfk_1 FOREIGN KEY (id_cliente)
+REFERENCES tb_cliente(id_cliente) ON DELETE CASCADE,
+ADD CONSTRAINT rel_cliente_pacote_ibfk_2 FOREIGN KEY (id_pacote_viagem)
+REFERENCES tb_pacote_viagem(id_pacote_viagem) ON DELETE CASCADE;
+
+ALTER TABLE rel_cliente_pacote_servico
+DROP FOREIGN KEY rel_cliente_pacote_servico_ibfk_1,
+DROP FOREIGN KEY rel_cliente_pacote_servico_ibfk_2,
+DROP FOREIGN KEY rel_cliente_pacote_servico_ibfk_3;
+
+ALTER TABLE rel_cliente_pacote_servico
+ADD CONSTRAINT rel_cliente_pacote_servico_ibfk_1 FOREIGN KEY (id_cliente)
+REFERENCES tb_cliente(id_cliente) ON DELETE CASCADE,
+ADD CONSTRAINT rel_cliente_pacote_servico_ibfk_2 FOREIGN KEY (id_pacote_viagem)
+REFERENCES tb_pacote_viagem(id_pacote_viagem) ON DELETE CASCADE,
+ADD CONSTRAINT rel_cliente_pacote_servico_ibfk_3 FOREIGN KEY (id_servico)
+REFERENCES tb_servico(id_servico) ON DELETE CASCADE;
 
 
 
