@@ -1,0 +1,119 @@
+﻿# código sql do banco de dados
+
+
+create database agenciaViagens;
+
+
+use agenciaViagens;
+
+
+CREATE TABLE tb_tipo_cliente(
+        id_tipo_cliente int primary key auto_increment,
+        tipo_cliente varchar(45) not null
+);
+    
+CREATE TABLE tb_tipo_pacote_viagem (
+        id_tipo_pacote_viagem int primary key auto_increment,
+        tipo_pacote_viagem varchar(45) not null
+);
+
+
+CREATE TABLE tb_destino (
+        id_destino int primary key auto_increment,
+        destino varchar(45) not null
+);
+
+
+CREATE TABLE tb_servico (
+        id_servico int primary key auto_increment,
+        servico varchar(45) not null,
+        preco double not null,
+        descricao varchar(256) not null
+);
+
+
+CREATE TABLE tb_cliente (
+        id_cliente int primary key auto_increment,
+        nome varchar(45) not null,
+        telefone varchar(14) not null,
+        email varchar(256) not null,
+        cpf varchar(11),
+        passaporte varchar(9),
+        id_tipo_cliente int not null,
+        foreign key (id_tipo_cliente) references tb_tipo_cliente(id_tipo_cliente)
+);
+
+
+CREATE TABLE tb_pacote_viagem (
+        id_pacote_viagem int primary key auto_increment,
+        nome varchar(45) not null,
+        preco double not null,
+        descricao varchar(1000) not null,
+        duracao int not null,
+        id_destino int not null,
+        id_tipo_pacote_viagem int not null,
+        foreign key (id_destino) references tb_destino(id_destino),
+        foreign key (id_tipo_pacote_viagem) references tb_tipo_pacote_viagem(id_tipo_pacote_viagem)
+);
+
+
+CREATE TABLE rel_cliente_pacote (
+        id_cliente int not null,
+        id_pacote_viagem int not null,
+        foreign key (id_cliente) references tb_cliente(id_cliente),
+        foreign key (id_pacote_viagem) references tb_pacote_viagem(id_pacote_viagem)
+);
+
+
+CREATE TABLE rel_cliente_pacote_servico (
+    id_cliente INT NOT NULL,
+    id_pacote_viagem INT NOT NULL,
+    id_servico INT NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES tb_cliente(id_cliente),
+    FOREIGN KEY (id_pacote_viagem) REFERENCES tb_pacote_viagem(id_pacote_viagem),
+    FOREIGN KEY (id_servico) REFERENCES tb_servico(id_servico)
+);
+
+
+
+# populando o banco de dados
+
+
+# 1. tb_destino
+
+INSERT INTO tb_destino (nome) VALUES
+('Paris'),
+('Rio de Janeiro'),
+('Tóquio'),
+('Nova York'),
+('Cidade do Cabo'),
+('Sydney'),
+('Cancún'),
+('Veneza'),
+('Machu Picchu'),
+('Cairo');
+
+
+# 2. tb_tipo_cliente
+
+INSERT INTO tb_tipo_cliente (tipo_cliente)
+VALUES
+("NACIONAL"),
+("ESTRANGEIRO");
+
+
+# 3. tb_tipo_pacote_viagem
+
+INSERT INTO tb_tipo_pacote_viagem (tipo) VALUES
+('Aventura'),
+('Romântica'),
+('Cultural'),
+('Ecológica'),
+('Gastronômica'),
+('Luxo'),
+('Econômica'),
+('Religiosa'),
+('Praia'),
+('Neve'),
+('Familiar'),
+('Corporativa');
